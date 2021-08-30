@@ -4,15 +4,17 @@ from .rfm_values import RFMData
 
 
 class RFMScore:
-    def __init__(self, path):
-
+    def __init__(self, path: str):
         self.data_rfm = RFMData(path).get_rfm_data()
         self.quantiles = self.data_rfm[["recency", "frequency", "monetary"]].quantile(
             q=[0.20, 0.40, 0.60, 0.80]
         )
 
-    def r_score(self, r, values):
+    def __repr__(self):
+        return "{self.__class__.__name__}({self.data_rfm})".format(self=self)
 
+    def r_score(self, r: int, values: str) -> int:
+        """Returns the r-score on the base of quantiles of recency."""
         if r < self.quantiles[values][0.20]:
             return 5
         elif r < self.quantiles[values][0.40]:
@@ -24,8 +26,8 @@ class RFMScore:
         else:
             return 1
 
-    def fm_score(self, r, values):
-
+    def fm_score(self, r: int, values: str) -> int:
+        """Returns f and m score on the basis of quantiles of frequency and monetary resepectively."""
         if r > self.quantiles[values][0.80]:
             return 5
         elif r > self.quantiles[values][0.60]:
@@ -37,7 +39,12 @@ class RFMScore:
         else:
             return 1
 
-    def combine_scores(self):
+    def combine_scores(self) -> pd.DataFrame:
+        """Combines r, f, m score as strings to get rfm score.
+
+        Returns:
+            pd.DataFrame: Dataframe that consists of r, f, m, rf and rfm score as columns additional to data_rfm coloumns.
+        """
 
         rfm_df_score = self.data_rfm.copy()
         rfm_df_score["r_score"] = rfm_df_score.recency.apply(
