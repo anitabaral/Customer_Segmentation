@@ -1,3 +1,5 @@
+import pandas as pd
+
 from .rfm_score import RFMScore
 
 
@@ -8,8 +10,12 @@ class CustomerDivisions:
     def __repr__(self):
         return "{self.__class__.__name__}({self.rfm_df_score})".format(self=self)
 
-    def customer_segments(self):
+    def customer_segments(self) -> pd.DataFrame:
+        """Segments the customers on the basis of recency frequency score.
 
+        Returns:
+            pd.DataFrame: Dataframe with the added column segment, consisting rfm segment of each customer.
+        """
         seg_map = {
             r"[4-5][4-5]": "Champions",
             r"[3-4][4-5]": "Loyal Customers",
@@ -24,21 +30,18 @@ class CustomerDivisions:
         )
 
         return self.rfm_df_score
-    
-    def get_individual_segments(self, segment_name):
 
-        individual_segment = self.rfm_df_score[self.rfm_df_score['segments'] == segment_name]
-        return individual_segment
+    def get_individual_segments(self, segment_name: str) -> pd.DataFrame:
+        """Segments the dataframe on the basis of segment_name.
 
-    def get_champions_id_monetary(self, segment):
+        Args:
+            segment_name (str): One of the seven rfm segment.
 
-        self.customer_segments()
-        customer_segment_df = self.rfm_df_score[
-            self.rfm_df_score["segments"] == segment
+        Returns:
+            pd.DataFrame: Dataframe consisting the rows of only specified segment_name.
+        """
+        individual_segment = self.rfm_df_score[
+            self.rfm_df_score["segments"] == segment_name
         ]
-        customer_segment_df["customer_id"] = customer_segment_df.index
-        customer_segment_id_monetary = customer_segment_df[
-            ["customer_id", "monetary"]
-        ].sort_values(by=["monetary"], ascending=False)
 
-        return customer_segment_id_monetary
+        return individual_segment
