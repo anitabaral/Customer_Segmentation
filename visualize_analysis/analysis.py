@@ -7,9 +7,11 @@ import seaborn as sns
 import streamlit as st
 from matplotlib import rcParams
 import matplotlib.pyplot as plt
+
 rcParams["axes.titlepad"] = 20
 
 from .rfm_analysis import rfm_data
+
 
 class GeographicAnalysis:
     def __init__(self, preprocessed_data: pd.DataFrame):
@@ -18,10 +20,14 @@ class GeographicAnalysis:
     def get_values_per_country(self):
         """Groups orders by country, customers by country and total spend amount by country.
 
-        Returns:
-            pd.DataFrame: Orders grouped by country.
-            pd.DataFrame: Customers grouped by country.
-            pd.DataFrame: Spend amount grouped by country.
+        Returns
+        -------
+        pd.DataFrame
+            Orders grouped by country.
+        pd.DataFrame
+            Customers grouped by country.
+        pd.DataFrame
+            Spend amount grouped by country.
         """
         orders_per_country = (
             self.preprocessed_data.groupby(by=["country"], as_index=False)[
@@ -52,7 +58,13 @@ class GeographicAnalysis:
 
     @staticmethod
     def bar_plot_vis(
-        country_values: pd.DataFrame, x_axis: str, y_axis: str, xlabel: str, ylabel: str, title: str, palette_value="Blues_r"
+        country_values: pd.DataFrame,
+        x_axis: str,
+        y_axis: str,
+        xlabel: str,
+        ylabel: str,
+        title: str,
+        palette_value="Blues_r",
     ):
         """Bar plots to visualize different values grouped by country"""
         f = plt.figure(figsize=(10, 8))
@@ -118,7 +130,7 @@ class TimeAnalysis:
         )
 
     def insert_columns(self):
-        """ Get the values of year, month, week, day, hour and year_month from the invoice_date"""
+        """Get the values of year, month, week, day, hour and year_month from the invoice_date"""
         self.commerce_data.insert(
             loc=2,
             column="year_month",
@@ -146,7 +158,14 @@ class TimeAnalysis:
         return None
 
     @staticmethod
-    def bar_plot_single_colour(country_values: pd.DataFrame, x_axis: str, y_axis: str, xlabel: str, ylabel: str, title: str):
+    def bar_plot_single_colour(
+        country_values: pd.DataFrame,
+        x_axis: str,
+        y_axis: str,
+        xlabel: str,
+        ylabel: str,
+        title: str,
+    ):
         """Visualizing with bar plot for different timeframes"""
         f = plt.figure(figsize=(10, 8))
         sns.barplot(
@@ -262,11 +281,13 @@ class BasketPriceAnalysis:
         self.basket_data = preprocessed_data
         self.basket_data.invoice_date = pd.to_datetime(self.basket_data.invoice_date)
 
-    def basket_price_calculation(self):
+    def basket_price_calculation(self) -> pd.DataFrame:
         """Calculating the basket price for each customer.
 
-        Returns:
-            pd.DataFrame: Dataframe consisting basket price of each customer as a column.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe consisting basket price of each customer as a column.
         """
         temp_df = self.basket_data.groupby(
             by=["customer_id", "invoice_num"], as_index=False
@@ -328,15 +349,22 @@ class CustomerAnalysis:
     def __init__(self, preprocessed_data: pd.DataFrame):
         self.customer_data = preprocessed_data
 
-    def get_ordered_count(self, grouping_element: str, count_element: str) -> pd.DataFrame:
+    def get_ordered_count(
+        self, grouping_element: str, count_element: str
+    ) -> pd.DataFrame:
         """Groups by the grouping_element and then counts the values for count_element.
 
-        Args:
-            grouping_element (str): Column name to group.
-            count_element (str): Column name whose counts are required.
+        Parameters
+        ----------
+        grouping_element : str
+            Column name to group.
+        count_element : str
+            Column name whose counts are required.
 
-        Returns:
-            pd.DataFrame: DataFrame grouped by grouping element and consisting the counts of count_element.
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame grouped by grouping element and consisting the counts of count_element.
         """
         ordered_value = self.customer_data.groupby(
             by=[grouping_element], as_index=False
@@ -349,19 +377,25 @@ class CustomerAnalysis:
     def get_ordered_sum(self, grouping_element: str, sum_element: str) -> pd.DataFrame:
         """Groups by the grouping_element and then sum the values for sum_element.
 
-        Args:
-            grouping_element (str): Column name to group.
-            count_element (str): Column name whose sum is required on the basis of groups.
+        Parameters
+        ----------
+        grouping_element : str
+            Column name to group.
+        sum_element : str
+            Column name whose sum is required on the basis of groups.
 
-        Returns:
-            pd.DataFrame: DataFrame grouped by grouping element and consisting the sum of sum_element.
+        Returns
+        -------
+        pd.DataFrame
+            DataFrame grouped by grouping element and consisting the sum of sum_element.
         """
+
         ordered_value = self.customer_data.groupby(
             by=[grouping_element], as_index=False
-        )[count_element].sum()
+        )[sum_element].sum()
 
         return ordered_value.sort_values(
-            [count_element, grouping_element], ascending=False
+            [sum_element, grouping_element], ascending=False
         )
 
     @staticmethod
@@ -398,14 +432,14 @@ class CustomerAnalysis:
 
 
 def get_visualizations(data: pd.DataFrame):
-    """Plots all the streamlit componets and calls the above functions to visualize analysis 
+    """Plots all the streamlit componets and calls the above functions to visualize analysis
     Args:
         data (pd.DataFrame): Cleaned customers data.
 
     Returns:
         None
     """
-     
+
     country, segment, preprocessed_data = None, None, data
     st.title("Customer Segmentation")
     st.markdown("In-depth visualization of different customers purchases pattern.")
@@ -417,10 +451,8 @@ def get_visualizations(data: pd.DataFrame):
                 "Time Analysis",
                 "Basket price Analysis",
                 "Customer Analysis",
-                "RFM Analysis"
-
+                "RFM Analysis",
             ),
-
         )
 
     if analysis == "Geographic Analysis":
@@ -442,6 +474,5 @@ def get_visualizations(data: pd.DataFrame):
     elif analysis == "RFM Analysis":
         country, segment = rfm_data()
         return country, segment
-     
-    return None, None
 
+    return None, None

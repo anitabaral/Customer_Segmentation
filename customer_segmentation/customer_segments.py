@@ -13,8 +13,10 @@ class CustomerDivisions:
     def customer_segments(self) -> pd.DataFrame:
         """Segments the customers on the basis of recency frequency score.
 
-        Returns:
-            pd.DataFrame: Dataframe with the added column segment, consisting rfm segment of each customer.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe with the added column segment, consisting rfm segment of each customer.
         """
         seg_map = {
             r"[4-5][4-5]": "Champions",
@@ -34,11 +36,15 @@ class CustomerDivisions:
     def get_individual_segments(self, segment_name: str) -> pd.DataFrame:
         """Segments the dataframe on the basis of segment_name.
 
-        Args:
-            segment_name (str): One of the seven rfm segment.
+        Parameters
+        ----------
+        segment_name : str
+            One of the seven rfm segment.
 
-        Returns:
-            pd.DataFrame: Dataframe consisting the rows of only specified segment_name.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe consisting the rows of only specified segment_name.
         """
         individual_segment = self.rfm_df_score[
             self.rfm_df_score["segments"] == segment_name

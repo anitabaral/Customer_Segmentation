@@ -42,19 +42,20 @@ class RFMScore:
     def combine_scores(self) -> pd.DataFrame:
         """Combines r, f, m score as strings to get rfm score.
 
-        Returns:
-            pd.DataFrame: Dataframe that consists of r, f, m, rf and rfm score as columns additional to data_rfm coloumns.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe that consists of r, f, m, rf and rfm score as columns additional to data_rfm coloumns.
         """
-
         rfm_df_score = self.data_rfm.copy()
         rfm_df_score["r_score"] = rfm_df_score.recency.apply(
-            lambda x: self.r_score(x, "recency")
+            lambda r: self.r_score(r, "recency")
         )
         rfm_df_score["f_score"] = rfm_df_score.frequency.apply(
-            lambda x: self.fm_score(x, "frequency")
+            lambda f: self.fm_score(f, "frequency")
         )
         rfm_df_score["m_score"] = rfm_df_score.monetary.apply(
-            lambda x: self.fm_score(x, "monetary")
+            lambda m: self.fm_score(m, "monetary")
         )
         rfm_df_score["rfm_score"] = (
             rfm_df_score["r_score"].map(str)

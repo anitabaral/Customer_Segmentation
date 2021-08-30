@@ -12,11 +12,13 @@ class RFMData:
     def __repr__(self) -> pd.DataFrame:
         return "{self.__class__.__name__}({self.preprocessed_data})".format(self=self)
 
-    def get_rfm_data(self):
+    def get_rfm_data(self) -> pd.DataFrame:
         """Calculates recency, frequency and monetary values by agrregating spend_amount and invoice_date.
 
-        Returns:
-            object:  Dataframe that consists of recency, frequency, monetary, as columns and customer_id as index.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe that consists of recency, frequency, monetary, as columns and customer_id as index.
         """
         today = dt.datetime(2012, 1, 9)
         data_monetary_recency = self.preprocessed_data.groupby("customer_id").agg(

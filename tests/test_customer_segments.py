@@ -2,7 +2,13 @@ from customer_segmentation import RFMScore, CustomerDivisions
 
 
 def test_get_individual_segments():
+    """Testing whether or not the dataframe contains only one rfm segment
 
+    Returns
+    -------
+    str
+        Value that is returned when the test fails.
+    """
     customerDivisions = CustomerDivisions("dataset/cleaned_data.csv")
     input = "Champions"
     customerDivisions.customer_segments()
