@@ -20,7 +20,13 @@ def get_renamed_dataframe(input):
 
 
 def test_replace_zero_values():
+    """Testing whether or not the all the zero values of unit price is replaced with NaN
 
+    Returns
+    -------
+    str
+        Value that is returned when the test case fails.
+    """
     input = load_initial_data()
     dataCleaning = get_renamed_dataframe(input)
     output = dataCleaning.replace_zero_vales()
@@ -30,7 +36,13 @@ def test_replace_zero_values():
 
 
 def test_replace_nan_with_null():
+    """Testing whether or not all the nan values of dataframe is replaced with NaN
 
+    Returns
+    -------
+    str
+        Value that is returned when the test case fails.
+    """
     input = load_initial_data()
     dataCleaning = get_renamed_dataframe(input)
     output = dataCleaning.replace_nan_with_null()

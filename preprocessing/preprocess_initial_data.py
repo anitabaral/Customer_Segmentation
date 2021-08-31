@@ -34,12 +34,17 @@ class DataCleaning:
     def get_attributes_info(data: pd.DataFrame) -> pd.DataFrame:
         """Creates a dataframe with different attributes info.
 
-        Args:
-            data (pd.DataFrame): Consist the customers data.
+        Parameters
+        ----------
+        data : pd.DataFrame
+            Consist the customers data.
 
-        Returns:
-            pd.DataFrame: Dataframe with different attributes info.
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe with different attributes info.
         """
+
         info = defaultdict(list)
         info["count"], info["dtypes"] = data.count(), data.dtypes.values
         info["missing_values"] = data.isnull().sum().values
@@ -50,7 +55,13 @@ class DataCleaning:
         return attributes_info
 
     def replace_zero_vales(self) -> pd.DataFrame:
-        """Replaces zeros with NaN"""
+        """Replaces 0.0 with NanN
+
+        Returns
+        -------
+        pd.DataFrame
+            Dataframe whose unit price column zero values is replaced with NaN
+        """
         self.commerce_data.unit_price.replace({0.0: np.nan}, inplace=True)
 
         return self.commerce_data
@@ -59,14 +70,17 @@ class DataCleaning:
     def check_nan_values(data: pd.DataFrame) -> tuple[int, int]:
         """Checks for nan and empty values in the dataframe coloumn description.
 
-        Args:
-            data (pd.DataFrame): The customers dataset.
+        Parameters
+        ----------
+        data : pd.DataFrame
+            The customers dataset.
 
-        Returns:
-            (int): Number of nan values in the dataframe.
-            (int): Number of emptry strings in the dataframe.
+
+        Returns
+        -------
+        tuple[int, int]
+            [Number of nan values in the dataframe, Number of emptry strings in the dataframe. ]
         """
-
         data["description"] = data.description.str.lower()
         nan = (
             data.description.dropna()
@@ -132,12 +146,17 @@ class DataCleaning:
     def get_single_country_data(self, country: str) -> pd.DataFrame:
         """Extracts a particular country data as per specified in the country variable.
 
-        Args:
-            country (str): Name of the country.
+        Parameters
+        ----------
+        country : str
+            Name of the country.
 
-        Returns:
-            pd.DataFrame: Specific country data.
+        Returns
+        -------
+        pd.DataFrame
+            Specific country data.
         """
+
         self.get_cleaned_data()
         country_specific_data = self.commerce_data[
             self.commerce_data["country"] == country
