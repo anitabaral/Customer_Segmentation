@@ -5,5 +5,7 @@ archive.zip
 /.pytest_cache
 /.mypy_cache
 /customer_segmentation/.mypy_cache
+/customer_segmentation/__pycache__
+/preprocessing/__pycache__
 /.vscode
-tests/__pycache__
+/tests/__pycache__
