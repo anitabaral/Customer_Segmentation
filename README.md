@@ -32,8 +32,7 @@ git clone https://github.com/anitabaral/Major_Project/new/dev
 cd Major_Project
 
 pipenv shell
-pipenv run pip freeze > requirements.txt
-pipenv install -r requirements.txt
+pipenv install --skip-lock
 
 streamlit run app.py
 
