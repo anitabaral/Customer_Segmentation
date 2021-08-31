@@ -10,7 +10,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 
-def rfm_data():
+def rfm_data() -> tuple[str, str]:
     """Displays selectbox to let user select the country and rfm segment
 
     Returns
@@ -122,7 +122,7 @@ class RFMVisualizations:
 
         return None
 
-    def vis_contents(self, preprocessed_data, individual_segment):
+    def vis_contents(self, preprocessed_data: pd.DataFrame, individual_segment: str):
         """Calling the above functions to visualize elements one by one"""
         self.rfm_df_score.reset_index(inplace=True)
         segment_vis = (

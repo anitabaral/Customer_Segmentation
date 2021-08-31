@@ -13,28 +13,28 @@ class RFMScore:
     def __repr__(self):
         return "{self.__class__.__name__}({self.data_rfm})".format(self=self)
 
-    def r_score(self, r: int, values: str) -> int:
+    def r_score(self, recency: int, values: str) -> int:
         """Returns the r-score on the base of quantiles of recency."""
-        if r < self.quantiles[values][0.20]:
+        if recency < self.quantiles[values][0.20]:
             return 5
-        elif r < self.quantiles[values][0.40]:
+        elif recency < self.quantiles[values][0.40]:
             return 4
-        elif r < self.quantiles[values][0.60]:
+        elif recency < self.quantiles[values][0.60]:
             return 3
-        elif r < self.quantiles[values][0.80]:
+        elif recency < self.quantiles[values][0.80]:
             return 2
         else:
             return 1
 
-    def fm_score(self, r: int, values: str) -> int:
+    def fm_score(self, f: int, values: str) -> int:
         """Returns f and m score on the basis of quantiles of frequency and monetary resepectively."""
-        if r > self.quantiles[values][0.80]:
+        if f > self.quantiles[values][0.80]:
             return 5
-        elif r > self.quantiles[values][0.60]:
+        elif f > self.quantiles[values][0.60]:
             return 4
-        elif r > self.quantiles[values][0.40]:
+        elif f > self.quantiles[values][0.40]:
             return 3
-        elif r > self.quantiles[values][0.20]:
+        elif f > self.quantiles[values][0.20]:
             return 2
         else:
             return 1
