@@ -16,7 +16,6 @@ def load_initial_data():
 
     return dataCleaning
 
-
 def test_replace_zero_values(load_initial_data):
     """Testing whether or not the all the zero values of unit price is replaced with NaN"""
     output = load_initial_data.replace_zero_vales()
@@ -25,6 +24,5 @@ def test_replace_zero_values(load_initial_data):
 
 def test_replace_nan_with_null(load_initial_data):
     """Testing whether or not all the nan values of dataframe is replaced with NaN"""
-
     output = load_initial_data.replace_nan_with_null()
     assert output[output.isin(["nan"])].empty == False
