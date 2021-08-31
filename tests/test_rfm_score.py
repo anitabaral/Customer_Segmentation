@@ -15,4 +15,6 @@ def test_combine_scores():
     )
     output = rfm_df_score["rfm_score"]
 
-    assert input.equals(output)
+    assert input.equals(
+        output
+    ), "The concatenation of r, f and m didn't give the same value as rfm score"

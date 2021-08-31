@@ -111,7 +111,7 @@ class DataCleaning:
             self.commerce_data["quantity"] * self.commerce_data["unit_price"]
         )
 
-        return None
+        return self.commerce_data
 
     def rearrange_columns(self):
 
