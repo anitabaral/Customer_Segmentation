@@ -44,7 +44,6 @@ class DataCleaning:
         pd.DataFrame
             Dataframe with different attributes info.
         """
-
         info = defaultdict(list)
         info["count"], info["dtypes"] = data.count(), data.dtypes.values
         info["missing_values"] = data.isnull().sum().values
@@ -74,7 +73,6 @@ class DataCleaning:
         ----------
         data : pd.DataFrame
             The customers dataset.
-
 
         Returns
         -------
@@ -156,7 +154,6 @@ class DataCleaning:
         pd.DataFrame
             Specific country data.
         """
-
         self.get_cleaned_data()
         country_specific_data = self.commerce_data[
             self.commerce_data["country"] == country
